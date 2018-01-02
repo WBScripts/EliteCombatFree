@@ -17,6 +17,7 @@ import scripts.wastedbro.api.banking.Banking;
 import scripts.wastedbro.api.banking.Intent;
 import scripts.wastedbro.api.price_lookup.RSItemData;
 import scripts.wastedbro.api.price_lookup.RSItemGELookup;
+import scripts.wastedbro.api.tracking.GainTracker;
 import scripts.wastedbro.api.utils.CameraUtil;
 import scripts.wastedbro.api.utils.InteractionUtil;
 import scripts.wastedbro.api.waiting.Waiting;
@@ -27,6 +28,7 @@ import scripts.wastedbro.components.concrete.AntibanSettings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.NumberFormat;
 
 /**
  * @author Wastedbro
@@ -36,7 +38,11 @@ public class EliteCombatFree extends Script implements Painting
 {
     private boolean isRunning = true;
 
+    int gpGained = 0;
+
     boolean isHovering = false;
+
+    GainTracker tracker;
 
     Abc3Util abc;
     CombatSettings combatSettings;
@@ -75,6 +81,7 @@ public class EliteCombatFree extends Script implements Painting
             sleep(400,1000);
         gui.setVisible(false);
 
+        tracker = GainTracker.instance();
 
         combatSettings = gui.getSettings();
 
@@ -189,13 +196,39 @@ public class EliteCombatFree extends Script implements Painting
 
 
 
+    private final Color color1 = new Color(181, 181, 121);
+    private final Color color2 = new Color(0, 0, 0);
+
+    private final BasicStroke stroke1 = new BasicStroke(1);
+
+    private final Font font1 = new Font("Arial", 0, 21);
+    private final Font font2 = new Font("Arial", 0, 17);
+    private final Font font3 = new Font("Arial", 0, 12);
+
     @Override
-    public void onPaint(Graphics graphics)
+    public void onPaint(Graphics g1)
     {
+        int combatXP = tracker.getXpGained(Skills.SKILLS.ATTACK)+tracker.getXpGained(Skills.SKILLS.STRENGTH)+tracker.getXpGained(Skills.SKILLS.DEFENCE);
 
+        Graphics2D g = (Graphics2D)g1;
+        g.setColor(color1);
+        g.fillRect(2, 340, 515, 139);
+        g.setColor(color2);
+        g.setStroke(stroke1);
+        g.drawRect(2, 340, 515, 139);
+        g.setFont(font1);
+        g.drawString("Elite Combat Free", 5, 363);
+        g.setFont(font2);
+        g.drawString("Time Ran: " + Timing.msToString(this.getRunningTime()), 271, 363);
+        g.setFont(font3);
+        g.drawString("Combat XP: " + combatXP + " (" + perHour(combatXP) + "/hr)", 8, 395);
+        g.drawString("GP Gained: " + gpGained + " (" + perHour(gpGained) + "/hr)", 8, 418);
+        g.drawString("By Wastedbro", 434, 473);
     }
-
-
+    private String perHour(long gained)
+    {
+        return NumberFormat.getIntegerInstance().format(gained * 3600000D / (GainTracker.instance().getTotalRuntime()));
+    }
 
 
 
@@ -280,6 +313,7 @@ public class EliteCombatFree extends Script implements Painting
                         }
                     }, General.random(3000,5000)))
                     {
+                        gpGained += RSItemGELookup.getInstance().getItemData(item.getID()).getOverallPrice();
                         abc.sleep(abc.generateSleepTime(REACTIONS.PREDICTABLE_MEDIUM));
                     }
                 }
