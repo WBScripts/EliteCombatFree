@@ -43,6 +43,7 @@ public class EliteCombatFreeGui extends JFrame
 
     private void startButtonActionPerformed(ActionEvent e)
     {
+        startButton.requestFocus();
         ArrayList<Integer> ids = new ArrayList<>();
         for(String id : enemyIdsTextField.getText().trim().split(","))
         {
@@ -65,6 +66,8 @@ public class EliteCombatFreeGui extends JFrame
             JOptionPane.showMessageDialog(this, "Incorrect X,Y,Z tile coordinates. Please enter numeric coordinates or use the scan button");
             return;
         }
+
+
 
         settings.setRadius((int)radiusSpinner.getValue());
         settings.setLootMinPrice((int)minLootPriceSpinner.getValue());
@@ -136,7 +139,7 @@ public class EliteCombatFreeGui extends JFrame
                         .addGroup(panel1Layout.createParallelGroup()
                             .addGroup(panel1Layout.createSequentialGroup()
                                 .addComponent(label1)
-                                .addGap(0, 272, Short.MAX_VALUE))
+                                .addGap(0, 273, Short.MAX_VALUE))
                             .addComponent(enemyIdsTextField))
                         .addContainerGap())
             );
@@ -199,7 +202,7 @@ public class EliteCombatFreeGui extends JFrame
                         .addComponent(zTextField, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addComponent(scanAreaButton, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(28, Short.MAX_VALUE))
+                        .addContainerGap(29, Short.MAX_VALUE))
             );
             panel2Layout.setVerticalGroup(
                 panel2Layout.createParallelGroup()
@@ -227,13 +230,13 @@ public class EliteCombatFreeGui extends JFrame
 
         //======== panel3 ========
         {
-            panel3.setBorder(new TitledBorder(null, "Other CombatSettings", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, null, Color.black));
+            panel3.setBorder(new TitledBorder(null, "Other Settings", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, null, Color.black));
 
             //---- label6 ----
             label6.setText("Loot Items Worth Over:");
 
             //---- minLootPriceSpinner ----
-            minLootPriceSpinner.setModel(new SpinnerNumberModel(0, 0, 0, 100));
+            minLootPriceSpinner.setModel(new SpinnerNumberModel(0, 0, null, 100));
 
             //---- label7 ----
             label7.setText("GP");
@@ -265,7 +268,7 @@ public class EliteCombatFreeGui extends JFrame
                                 .addComponent(label7))
                             .addComponent(attemptToBankCheckbox)
                             .addComponent(abcReactionCheckbox))
-                        .addContainerGap(141, Short.MAX_VALUE))
+                        .addContainerGap(142, Short.MAX_VALUE))
             );
             panel3Layout.setVerticalGroup(
                 panel3Layout.createParallelGroup()
@@ -301,7 +304,7 @@ public class EliteCombatFreeGui extends JFrame
                             .addComponent(panel2, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(panel3, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addComponent(startButton, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 20, Short.MAX_VALUE))
+                    .addGap(0, 19, Short.MAX_VALUE))
         );
         contentPaneLayout.setVerticalGroup(
             contentPaneLayout.createParallelGroup()

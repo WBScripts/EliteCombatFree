@@ -85,6 +85,8 @@ public class EliteCombatFree extends Script implements Painting
 
         combatSettings = gui.getSettings();
 
+        println("Min Loot Price: " + combatSettings.getLootMinPrice());
+
         runActivation = abc.generateRunActivation();
 
         RSArea combatArea = new RSArea(combatSettings.getCentralTile(), combatSettings.getRadius());
